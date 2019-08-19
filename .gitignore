@@ -1,0 +1,6 @@
+# vscode folders
+.vscode
+
+# bazel folders
+bazel-*
+
