@@ -29,52 +29,19 @@
   V(IntLiteral, "IntLiteral") \
   V(StringLiteral, "StringLiteral")
 
-/*
-*/
-
-// +
-// -
-// *
-// /
-// >=
-// >
-// ==
-// <=
-// <
-
 enum class TokenType {
-#define DECLARE_ENUM(enum_name, opcode_name) enum_name,
+#define DECLARE_ENUM(enum_type, enum_string) enum_type,
   TOKEN_TYPE_LIST(DECLARE_ENUM)
 #undef DECLARE_ENUM
-  // Invalid,
-  // Plus,           // +
-  // Minus,          // -
-  // Star,           // *
-  // Slash,          // /
-  // GE,             // >=
-  // GT,             // >
-  // EQ,             // ==
-  // LE,             // <=
-  // LT,             // <
-  // SemiColon,      // ;
-  // LeftParen,      // (
-  // RightParen,     // )
-  // Assignment,     // =
-  // If,
-  // Else,
-  // Int,
-  // Identifier,     //标识符
-  // IntLiteral,     //整型字面量
-  // StringLiteral   //字符串字面量
 };
 
 std::string TokenTypeToString(TokenType token_type) {
   switch (token_type) {
-#define CASE_TOKEN_TYPE_STRING(enum_name, type_name) \
-  case TokenType::enum_name:                         \
-    return type_name;
-    TOKEN_TYPE_LIST(CASE_TOKEN_TYPE_STRING)
-#undef CASE_TOKEN_TYPE_STRING
+#define CASE_ENUM_TYPE_STRING(enum_type, enum_name) \
+  case TokenType::enum_type:                        \
+    return enum_name;
+    TOKEN_TYPE_LIST(CASE_ENUM_TYPE_STRING)
+#undef CASE_ENUM_TYPE_STRING
   }
 }
 
