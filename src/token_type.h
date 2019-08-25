@@ -35,15 +35,7 @@ enum class TokenType {
 #undef DECLARE_ENUM
 };
 
-std::string TokenTypeToString(TokenType token_type) {
-  switch (token_type) {
-#define CASE_ENUM_TYPE_STRING(enum_type, enum_name) \
-  case TokenType::enum_type:                        \
-    return enum_name;
-    TOKEN_TYPE_LIST(CASE_ENUM_TYPE_STRING)
-#undef CASE_ENUM_TYPE_STRING
-  }
-}
+std::string TokenTypeToString(TokenType token_type);
 
 inline std::ostream& operator<<(std::ostream& os, TokenType token_type) {
   return os << TokenTypeToString(token_type);
@@ -53,4 +45,4 @@ inline std::string operator+(std::string& str, TokenType token_type) {
   return str + TokenTypeToString(token_type);
 }
 
-#endif
+#endif  // TOKEN_TYPE_H_

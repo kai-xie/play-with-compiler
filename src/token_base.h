@@ -23,7 +23,7 @@ class TokenBase {
    * Token的文本值
    * @return
    */
-  virtual std::string& Text()  = 0;
+  virtual std::string& Text() = 0;
   virtual const std::string& Text() const = 0;
 
   // virtual ~TokenBase() = default;

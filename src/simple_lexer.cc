@@ -1,15 +1,12 @@
-#include <memory>
-#include <string>
-#include <vector>
-#include <iostream>
+#include "simple_lexer.h"
 
+#include <iostream>
+#include <memory>
+
+#include "simple_token_reader.h"
 #include "token_base.h"
 #include "token_reader_base.h"
 #include "token_type.h"
-
-// class SimpleLexer {
-//  public:
-// };
 
 /**
  * Token的一个简单实现。只有类型和文本值两个属性。
@@ -64,85 +61,9 @@ enum class DfaState {
   IntLiteral
 };
 
-// The TokenReader should live longer than the TokenBase* returned by Read() or
-// Peak()
-class SimpleTokenReader : public TokenReaderBase {
- public:
-  explicit SimpleTokenReader(
-      std::vector<std::unique_ptr<TokenBase>>& tokens) {
-    // Init(tokens);
-    for (auto& token : tokens) {
-      tokens_.emplace_back(std::move(token));
-      // tokens_.emplace_back(std::make_unique<TokenBase>(*token));
-    }
-    // tokens_ = tokens;
-  }
-
-  virtual const TokenBase* Read() override {
-    if (IsValidPosition(pos_)) {
-      return tokens_[pos_++].get();
-    }
-    // return std::unique_ptr<TokenBase>(nullptr);
-    return nullptr;
-  }
-
-  virtual const TokenBase* Peek() const override {
-    if (IsValidPosition(pos_)) {
-      return tokens_[pos_].get();
-    }
-    // return std::unique_ptr<TokenBase>(nullptr);
-    return nullptr;
-  };
-
-  virtual void Unread() override {
-    if (pos_ > 0) {
-      pos_--;
-    }
-  }
-
-  virtual int GetPosition() const override { return pos_; }
-
-  virtual void SetPosition(int position) override {
-    if (IsValidPosition(position)) {
-      pos_ = position;
-    }
-  }
-
- private:
-  // void Init() {
-  //       for (auto& token : tokens) {
-  //     // tokens_.emplace_back(std::move(token));
-  //     tokens_.emplace_back(std::make_unique<TokenBase>(*token));
-  //   }
-  // }
-
-
-  bool IsValidPosition(int position) const {
-    return position >= 0 && position < tokens_.size();
-  }
-
-
-
-  std::vector<std::unique_ptr<TokenBase>> tokens_;
-
-  int pos_ = 0;
-};
-
 namespace {
-
-//下面几个变量是在解析过程中用到的临时变量,如果要优化的话，可以塞到方法里隐藏起来
-//临时保存token的文本
-std::string token_text;
-
-//保存解析出来的Token
-std::vector<std::unique_ptr<TokenBase>> tokens;
-
-// 当前正在解析的Token
-std::unique_ptr<TokenBase> token;
-// SimpleToken token;
-
 bool IsAlpha(char ch) {
-  return ch >= 'a' && ch <= 'z' || ch >= 'A' && ch <= 'Z';
+  return (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z');
 }
 
 bool IsDigit(char ch) { return ch >= '0' && ch <= '9'; }
@@ -150,79 +71,7 @@ bool IsDigit(char ch) { return ch >= '0' && ch <= '9'; }
 //是否是空白字符
 bool IsBlank(char ch) { return ch == ' ' || ch == '\t' || ch == '\n'; }
 
-/**
- * 有限状态机进入初始状态。
- * 这个初始状态其实并不做停留，它马上进入其他状态。
- * 开始解析的时候，进入初始状态；某个Token解析完毕，也进入初始状态，在这里把Token记下来，然后建立一个新的Token。
- * @param ch
- * @return
- */
-DfaState InitToken(char ch) {
-  if (token_text.length() > 0) {
-    // Save the current token
-    (*token).Text() = token_text;
-    tokens.emplace_back(std::move(token));
-
-    // TODO: fix the following code.
-    // token_text = new StringBuffer();
-    token_text.clear();
-    token.reset(new SimpleToken());
-  }
-
-  DfaState newState = DfaState::Initial;
-  if (IsAlpha(ch)) {  //第一个字符是字母
-    if (ch == 'i') {
-      newState = DfaState::Id_int1;
-    } else {
-      newState = DfaState::Id;  //进入Id状态
-    }
-    (*token).Type() = TokenType::Identifier;
-    token_text += ch;
-  } else if (IsDigit(ch)) {  //第一个字符是数字
-    newState = DfaState::IntLiteral;
-    (*token).Type() = TokenType::IntLiteral;
-    token_text += ch;
-  } else if (ch == '>') {  //第一个字符是>
-    newState = DfaState::GT;
-    (*token).Type() = TokenType::GT;
-    token_text += ch;
-  } else if (ch == '+') {
-    newState = DfaState::Plus;
-    (*token).Type() = TokenType::Plus;
-    token_text += ch;
-  } else if (ch == '-') {
-    newState = DfaState::Minus;
-    (*token).Type() = TokenType::Minus;
-    token_text += ch;
-  } else if (ch == '*') {
-    newState = DfaState::Star;
-    (*token).Type() = TokenType::Star;
-    token_text += ch;
-  } else if (ch == '/') {
-    newState = DfaState::Slash;
-    (*token).Type() = TokenType::Slash;
-    token_text += ch;
-  } else if (ch == ';') {
-    newState = DfaState::SemiColon;
-    (*token).Type() = TokenType::SemiColon;
-    token_text += ch;
-  } else if (ch == '(') {
-    newState = DfaState::LeftParen;
-    (*token).Type() = TokenType::LeftParen;
-    token_text += ch;
-  } else if (ch == ')') {
-    newState = DfaState::RightParen;
-    (*token).Type() = TokenType::RightParen;
-    token_text += ch;
-  } else if (ch == '=') {
-    newState = DfaState::Assignment;
-    (*token).Type() = TokenType::Assignment;
-    token_text += ch;
-  } else {
-    newState = DfaState::Initial;  // skip all unknown patterns
-  }
-  return newState;
-}
+}  // namespace
 
 /**
  * 解析字符串，形成Token。
@@ -230,7 +79,8 @@ DfaState InitToken(char ch) {
  * @param code
  * @return
  */
-std::unique_ptr<SimpleTokenReader> Tokenize(const std::string& code) {
+std::unique_ptr<SimpleTokenReader> SimpleLexer::Tokenize(
+    const std::string& code) {
   // tokens = new ArrayList<Token>();
   // std::vector<std::unique_ptr<TokenBase>> tokens;
   tokens.clear();
@@ -241,7 +91,7 @@ std::unique_ptr<SimpleTokenReader> Tokenize(const std::string& code) {
   // std::string token_text;
   // std::unique_ptr<TokenBase> token;
   token.reset(new SimpleToken());
-  int ich = 0;
+  // int ich = 0;
   char ch = 0;
   int idx = 0;
   int length = code.length();
@@ -341,46 +191,88 @@ std::unique_ptr<SimpleTokenReader> Tokenize(const std::string& code) {
  * 打印所有的Token
  * @param token_reader
  */
-void Dump(SimpleTokenReader& token_reader) {
+void SimpleLexer::Dump(SimpleTokenReader& token_reader) {
   std::cout << "text\t\ttype" << std::endl;
   // Token token = null;
   // const std::unique_ptr<TokenBase>& token = token_reader.Read();
   const TokenBase* token = token_reader.Read();
   while (token != nullptr) {
     // System.out.println(token.getText() + "\t\t" + token.getType());
-    std::cout << token->Text() + "\t\t" <<  token->Type() << std::endl;
+    std::cout << token->Text() + "\t\t" << token->Type() << std::endl;
     token = token_reader.Read();
   }
 }
 
-// template<typename T=std::string>
-inline void TestLexer(const std::string& script) {
-  // std::string script;
-  // script = str;
-  // VLOG(0) << "parse: " << script;
-  std::cout << "parse: " << script << std::endl;
-  std::unique_ptr<SimpleTokenReader> token_reader(std::move(Tokenize(script)));
-  Dump(*token_reader);
-}
+/**
+ * 有限状态机进入初始状态。
+ * 这个初始状态其实并不做停留，它马上进入其他状态。
+ * 开始解析的时候，进入初始状态；某个Token解析完毕，也进入初始状态，在这里把Token记下来，然后建立一个新的Token。
+ * @param ch
+ * @return
+ */
+DfaState SimpleLexer::InitToken(char ch) {
+  if (token_text.length() > 0) {
+    // Save the current token
+    (*token).Text() = token_text;
+    tokens.emplace_back(std::move(token));
 
-}  // namespace
+    // TODO: fix the following code.
+    // token_text = new StringBuffer();
+    token_text.clear();
+    token.reset(new SimpleToken());
+  }
 
-int main(int argc, char* argv[]) {
-  // std::string script;
-
-  // script = "int age = 45;";
-  TestLexer("int age = 45;");
-  // VLOG(0) << "parse: " << script;
-  // SimpleTokenReader token_reader = Tokenize(script);
-  // Dump(token_reader);
-
-  // Test parsing "inta"
-  TestLexer("inta age = 45;");
-
-  // Test parsing "in"
-  TestLexer("in age = 45;");
-
-  TestLexer("age >= 45;");
-
-  TestLexer("age > 45;");
+  DfaState newState = DfaState::Initial;
+  if (IsAlpha(ch)) {  //第一个字符是字母
+    if (ch == 'i') {
+      newState = DfaState::Id_int1;
+    } else {
+      newState = DfaState::Id;  //进入Id状态
+    }
+    (*token).Type() = TokenType::Identifier;
+    token_text += ch;
+  } else if (IsDigit(ch)) {  //第一个字符是数字
+    newState = DfaState::IntLiteral;
+    (*token).Type() = TokenType::IntLiteral;
+    token_text += ch;
+  } else if (ch == '>') {  //第一个字符是>
+    newState = DfaState::GT;
+    (*token).Type() = TokenType::GT;
+    token_text += ch;
+  } else if (ch == '+') {
+    newState = DfaState::Plus;
+    (*token).Type() = TokenType::Plus;
+    token_text += ch;
+  } else if (ch == '-') {
+    newState = DfaState::Minus;
+    (*token).Type() = TokenType::Minus;
+    token_text += ch;
+  } else if (ch == '*') {
+    newState = DfaState::Star;
+    (*token).Type() = TokenType::Star;
+    token_text += ch;
+  } else if (ch == '/') {
+    newState = DfaState::Slash;
+    (*token).Type() = TokenType::Slash;
+    token_text += ch;
+  } else if (ch == ';') {
+    newState = DfaState::SemiColon;
+    (*token).Type() = TokenType::SemiColon;
+    token_text += ch;
+  } else if (ch == '(') {
+    newState = DfaState::LeftParen;
+    (*token).Type() = TokenType::LeftParen;
+    token_text += ch;
+  } else if (ch == ')') {
+    newState = DfaState::RightParen;
+    (*token).Type() = TokenType::RightParen;
+    token_text += ch;
+  } else if (ch == '=') {
+    newState = DfaState::Assignment;
+    (*token).Type() = TokenType::Assignment;
+    token_text += ch;
+  } else {
+    newState = DfaState::Initial;  // skip all unknown patterns
+  }
+  return newState;
 }

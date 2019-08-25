@@ -9,7 +9,7 @@
    ```
 3. Test: now the project should build, then run the compiled executables, e.g.:
     ``` bash
-    ./bazel-bin/src/simple_lexer
+    ./bazel-bin/src/simple_lexer_test
     ```
 
 ## Note
@@ -17,5 +17,5 @@
 Currently available tests:
 
 ``` bash
-./bazel-bin/src/simple_lexer
+./bazel-bin/src/simple_lexer_test
 ```
