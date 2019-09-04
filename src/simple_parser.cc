@@ -67,6 +67,10 @@ class SimpleASTNode : public ASTNodeBase {
   std::string text_;
 };
 
+
+
+
+
 // private
 // class SimpleASTNode implements ASTNode {
 //   SimpleASTNode parent = null;
@@ -104,9 +108,3 @@ class SimpleASTNode : public ASTNodeBase {
 //   }
 
 //     }
-
-int main(int argc, char* argv[]) {
-  CHECK(true);
-  VLOG(0) << "glog enbaled!";
-  return 0;
-}
