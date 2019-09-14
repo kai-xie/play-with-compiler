@@ -21,10 +21,74 @@
  * primary -> IntLiteral | Id | (additive)
  */
 
-class SimpleParser {
- public:
-  // ASTNode Parse(std::string& script){}
+template <typename T>
+inline T* AddNodeToBuilder(SimpleAST::Builder& builder,
+                           std::unique_ptr<T> node) {
+  T* ret = node.get();
+  builer.AddASTNode(node);
+  return ret;
+}
+
+/**
+ * AST的根节点，解析的入口。
+ * @return
+ * @throws Exception
+ */
+SimpleASTNode* SimpleParser::Prog(TokenReaderBase tokens) {
+  std::unique_ptr<SimpleASTNode> node =
+      std::make_unique<SimpleASTNode>(ASTNodeType::Program, "pwc");
+  while (tokens.peek() != nullptr) {
+    std::unique_ptr<SimpleASTNode> child = IntDeclare(tokens);
+    if (nullptr == child) {
+      child = ExpressionStatement(tokens);
+    }
+    if (nullptr == child) {
+      child = AssignmentStatement(tokens);
+    }
+    CHECK(child.get()) << "unknown statement";
+    if (nullptr != child) {
+      node->AddChild(child);
+    }
+  }
+  // auto ret = node.get();
+  // ast_builder_.AddASTNode(node);
+  // return ret;
+  return AddNodeToBuilder(ast_builder_, node);
 };
+
+/**
+ * 表达式语句，即表达式后面跟个分号。
+ * @return
+ * @throws Exception
+ */
+SimpleASTNode* ExpressionStatement(TokenReaderBase tokens) {
+  int pos = tokens.GetPosition();
+  SimpleASTNode* node = Additive(tokens);
+  if (node != nullptr) {
+    TokenBase* token = tokens.peek();
+    if (token != nullptr && token.Type() == TokenType::SemiColon) {
+      tokens.reade();
+    } else {
+      node = nullptr;
+      tokens.SetPosition(pos);
+    }
+  }
+  return node;
+}
+
+    /**
+     * 赋值语句，如age = 10*2;
+     * @return
+     * @throws Exception
+     */
+
+
+
+
+
+
+
+
 
 /**
  * 一个简单的AST节点。
@@ -66,10 +130,6 @@ class SimpleASTNode : public ASTNodeBase {
   ASTNodeType node_type_;
   std::string text_;
 };
-
-
-
-
 
 // private
 // class SimpleASTNode implements ASTNode {

@@ -2,13 +2,17 @@
 #define SIMPLE_AST_H_
 
 #include <memory>
+// #include <string>
+#include <vector>
+
+class ASTNodeBase;
 
 // A class holds all the ASTNode in an abstract syntax tree.
 class SimpleAST {
  public:
   class Builder {
    public:
-    explicit Builder() : ast_nodes_(), root(nullptr) {}
+    explicit Builder() : builder_ast_nodes_(), first_added_node_(nullptr) {}
 
     std::unique_ptr<SimpleAST> Build(ASTNodeBase* root_ast_node = nullptr);
 
@@ -20,7 +24,7 @@ class SimpleAST {
   };
 
  private:
-  SimpleAST(std::unique_ptr<ASTNodeBase>* ast_nodes,
+  SimpleAST(std::vector<std::unique_ptr<ASTNodeBase>>* ast_nodes,
             ASTNodeBase* root_ast_node);
 
   // Stores all the ast node.
@@ -29,5 +33,10 @@ class SimpleAST {
   // The root in the AST.
   ASTNodeBase* root_;
 };
+
+// // std::ostream& operator<<(std::ostream& s, std::nullptr_t) {
+// std::ostream& operator<<(std::ostream& s, std::nullptr_t& p) {
+//   return s << std::string("nullptr");
+// }
 
 #endif  // SIMPLE_AST_H_
