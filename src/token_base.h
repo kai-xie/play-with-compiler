@@ -10,7 +10,7 @@
  * A base class for tokens.
  */
 
-class TokenBase {
+class Token {
  public:
   /**
    * Token的类型
@@ -26,7 +26,7 @@ class TokenBase {
   virtual std::string& Text() = 0;
   virtual const std::string& Text() const = 0;
 
-  // virtual ~TokenBase() = default;
+  // virtual ~Token() = default;
 };
 
 #endif  // TOKEN_BASE_H_

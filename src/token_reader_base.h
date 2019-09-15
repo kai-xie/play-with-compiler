@@ -5,17 +5,19 @@
 #ifndef TOKEN_READER_BASE_H_
 #define TOKEN_READER_BASE_H_
 
-class TokenReaderBase {
+class Token;
+
+class TokenReader {
  public:
   /**
    * 返回Token流中下一个Token，并从流中取出。 如果流已经为空，返回null;
    */
-  virtual const TokenBase* Read() = 0;
+  virtual const Token* Read() = 0;
 
   /**
    * 返回Token流中下一个Token，但不从流中取出。 如果流已经为空，返回null;
    */
-  virtual const TokenBase* Peek() const = 0;
+  virtual const Token* Peek() const = 0;
 
   /**
    * Token流回退一步。恢复原来的Token。
@@ -34,7 +36,7 @@ class TokenReaderBase {
    */
   virtual void SetPosition(int position) = 0;
 
-  virtual ~TokenReaderBase() = default;
+  virtual ~TokenReader() = default;
 };
 
 #endif

@@ -24,7 +24,7 @@
 // };
 
 #define ASTNODE_TYPE_LIST(MACRO)          \
-  MACRO(Programm, "Program")              \
+  MACRO(Program, "Program")              \
   MACRO(IntDeclaration, "IntDeclaration") \
   MACRO(ExpressionStmt, "ExpressionStmt") \
   MACRO(AssignmentStmt, "AssignmentStmt") \

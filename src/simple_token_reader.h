@@ -6,32 +6,32 @@
 
 #include "token_reader_base.h"
 
-// The TokenReader should live longer than the TokenBase* returned by Read() or
+// The TokenReader should live longer than the Token* returned by Read() or
 // Peak()
-class SimpleTokenReader : public TokenReaderBase {
+class SimpleTokenReader : public TokenReader {
  public:
-  explicit SimpleTokenReader(std::vector<std::unique_ptr<TokenBase>>& tokens) {
+  explicit SimpleTokenReader(std::vector<std::unique_ptr<Token>>& tokens) {
     // Init(tokens);
     for (auto& token : tokens) {
       tokens_.emplace_back(std::move(token));
-      // tokens_.emplace_back(std::make_unique<TokenBase>(*token));
+      // tokens_.emplace_back(std::make_unique<Token>(*token));
     }
     // tokens_ = tokens;
   }
 
-  virtual const TokenBase* Read() override {
+  virtual const Token* Read() override {
     if (IsValidPosition(pos_)) {
       return tokens_[pos_++].get();
     }
-    // return std::unique_ptr<TokenBase>(nullptr);
+    // return std::unique_ptr<Token>(nullptr);
     return nullptr;
   }
 
-  virtual const TokenBase* Peek() const override {
+  virtual const Token* Peek() const override {
     if (IsValidPosition(pos_)) {
       return tokens_[pos_].get();
     }
-    // return std::unique_ptr<TokenBase>(nullptr);
+    // return std::unique_ptr<Token>(nullptr);
     return nullptr;
   };
 
@@ -53,7 +53,7 @@ class SimpleTokenReader : public TokenReaderBase {
   // void Init() {
   //       for (auto& token : tokens) {
   //     // tokens_.emplace_back(std::move(token));
-  //     tokens_.emplace_back(std::make_unique<TokenBase>(*token));
+  //     tokens_.emplace_back(std::make_unique<Token>(*token));
   //   }
   // }
 
@@ -61,7 +61,7 @@ class SimpleTokenReader : public TokenReaderBase {
     return position >= 0 && position < tokens_.size();
   }
 
-  std::vector<std::unique_ptr<TokenBase>> tokens_;
+  std::vector<std::unique_ptr<Token>> tokens_;
 
   int pos_ = 0;
 };

@@ -12,7 +12,7 @@
  * Token的一个简单实现。只有类型和文本值两个属性。
  */
 
-class SimpleToken : public TokenBase {
+class SimpleToken : public Token {
  public:
   virtual TokenType& Type() override final { return type_; }
   virtual const TokenType& Type() const override final { return type_; }
@@ -82,14 +82,14 @@ bool IsBlank(char ch) { return ch == ' ' || ch == '\t' || ch == '\n'; }
 std::unique_ptr<SimpleTokenReader> SimpleLexer::Tokenize(
     const std::string& code) {
   // tokens = new ArrayList<Token>();
-  // std::vector<std::unique_ptr<TokenBase>> tokens;
+  // std::vector<std::unique_ptr<Token>> tokens;
   tokens.clear();
   // CharArrayReader reader = new CharArrayReader(code.toCharArray());
 
   // token_text = new StringBuffer();
   token_text.clear();
   // std::string token_text;
-  // std::unique_ptr<TokenBase> token;
+  // std::unique_ptr<Token> token;
   token.reset(new SimpleToken());
   // int ich = 0;
   char ch = 0;
@@ -194,8 +194,8 @@ std::unique_ptr<SimpleTokenReader> SimpleLexer::Tokenize(
 void SimpleLexer::Dump(SimpleTokenReader& token_reader) {
   std::cout << "text\t\ttype" << std::endl;
   // Token token = null;
-  // const std::unique_ptr<TokenBase>& token = token_reader.Read();
-  const TokenBase* token = token_reader.Read();
+  // const std::unique_ptr<Token>& token = token_reader.Read();
+  const Token* token = token_reader.Read();
   while (token != nullptr) {
     // System.out.println(token.getText() + "\t\t" + token.getType());
     std::cout << token->Text() + "\t\t" << token->Type() << std::endl;

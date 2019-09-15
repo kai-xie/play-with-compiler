@@ -7,8 +7,8 @@
 
 #include "token_base.h"
 
-class TokenBase;
-// class TokenReaderBase;
+class Token;
+// class TokenReader;
 class SimpleTokenReader;
 enum class DfaState;
 
@@ -47,10 +47,10 @@ class SimpleLexer {
   std::string token_text;
 
   //保存解析出来的Token
-  std::vector<std::unique_ptr<TokenBase>> tokens;
+  std::vector<std::unique_ptr<Token>> tokens;
 
   // 当前正在解析的Token
-  std::unique_ptr<TokenBase> token;
+  std::unique_ptr<Token> token;
   // SimpleToken token;
 };
 

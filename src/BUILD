@@ -72,13 +72,13 @@ cc_library(
     deps = ["ast_node_type"],
 )
 
-# https://docs.bazel.build/versions/master/be/c-cpp.html#cc_library
-cc_library(
-    name = "util",
-    srcs = ["util.h"],
-    hdrs = ["util.h"],
-    # deps = ["header files"],
-)
+# # https://docs.bazel.build/versions/master/be/c-cpp.html#cc_library
+# cc_library(
+#     name = "util",
+#     srcs = ["util.h"],
+#     hdrs = ["util.h"],
+#     # deps = ["header files"],
+# )
 
 cc_library(
     name = "simple_ast",
@@ -89,24 +89,42 @@ cc_library(
     ],
     deps = [
         ":ast_node_base",
-        ":util",
+        # ":util",
         "@com_google_absl//absl/memory",
         "@glog",
     ],
 )
 
-# cc_binary(
-#     name = "simple_parser",
-#     srcs = ["simple_parser.cc"],
-#     copts = [],
-#     deps = [
-#         "ast_node_base",
-#         "ast_node_type",
-#         "map_util",
-#         "@com_google_absl//absl/container:flat_hash_set",
-#         "@glog",
-#     ],
-# )
+cc_library(
+    name = "simple_parser",
+    srcs = ["simple_parser.cc"],
+    hdrs = ["simple_parser.h"],
+    copts = ["-std=c++14"],
+    deps = [
+        "ast_node_base",
+        "ast_node_type",
+        "map_util",
+        "@com_google_absl//absl/container:flat_hash_set",
+        "@com_google_absl//absl/memory",
+        "@glog",
+        "token_type",
+        "token_reader_base",
+        "simple_ast",
+        "token_base",
+        "simple_lexer",
+    ],
+)
+
+cc_binary(
+    name = "simple_parser_test",
+    srcs = ["simple_parser_test.cc"],
+    copts = [
+        "-std=c++14",
+    ],
+    deps = [
+        ":simple_parser",
+    ],
+)
 
 cc_library(
     name = "map_util",
@@ -130,5 +148,6 @@ cc_binary(
     ],
     deps = [
         "@glog",
+        "@com_google_absl//absl/memory",
     ],
 )
