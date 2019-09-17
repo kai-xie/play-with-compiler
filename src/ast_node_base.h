@@ -23,6 +23,8 @@ class ASTNode {
 
   //文本值
   virtual const std::string& GetText() const = 0;
+
+  virtual ~ASTNode() = default;
 };
 
 #endif  // AST_NODE_BASE_H_
