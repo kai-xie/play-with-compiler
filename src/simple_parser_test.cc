@@ -6,8 +6,8 @@
 
 void test_parser(int test_id, const std::string& script) {
   std::unique_ptr<SimpleParser> parser = std::make_unique<SimpleParser>();
-  std::cout << "=============== test " << test_id
-            << " ===============" << std::endl;
+  std::cout << "================== test " << test_id
+            << " ==================" << std::endl;
   // script = "2+3+;";
   std::cout << "Parsing: " + script << std::endl;
   auto ast = parser->Parse(script);
@@ -32,10 +32,13 @@ int main(int argc, char* argv[]) {
 
   test_parser(1, "int age = 45+2; age= 20; age1+10*2;");
   test_parser(2, "int age = 45+2 +3 +4;");
+
+  // [!!!] Test 3 and 4 will fail
   // test_parser(3, "2+3+;");
   // test_parser(4, "2+3*;");
-  // test_parser(5, "var_name +3*4+_+6/7");
-  // test_parser(6, "Int=another_int");
+
+  test_parser(5, "var_name +3*4+_+6/7;");
+  test_parser(6, "Int=another_int;");
 
   return 0;
 }

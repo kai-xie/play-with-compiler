@@ -132,9 +132,11 @@ SimpleASTNode* SimpleParser::ExpressionStatement(TokenReader* tokens) {
     const Token* ptoken = tokens->Peek();
     if (CheckTokenType(ptoken, TokenType::SemiColon)) {
       tokens->Read();
+      VLOG(1) << "IS Expression ...";
     } else {
       node = nullptr;
       tokens->SetPosition(pos);  // 回溯
+      VLOG(1) << "Not Expression ...";
     }
   }
   return node;  // //直接返回子节点，简化了AST。
@@ -173,9 +175,11 @@ SimpleASTNode* SimpleParser::AssignmentStatement(TokenReader* tokens) {
     }
   }
   if (assignment_found && node) {
+    VLOG(1) << "IS AssignmentStatement ...";
     return static_cast<SimpleASTNode*>(
         ast_builder_.AddASTNode(std::move(node)));
   }
+  VLOG(1) << "NOT AssignmentStatement ...";
   return nullptr;  // no assignment statement found
 }
 
@@ -227,7 +231,7 @@ SimpleASTNode* SimpleParser::IntDeclare(TokenReader* tokens) {
     return static_cast<SimpleASTNode*>(
         ast_builder_.AddASTNode(std::move(node)));
   }
-  VLOG(2) << "IntDeclare not found.";
+  VLOG(1) << "NOT IntDeclare ...";
   return nullptr;
 }
 

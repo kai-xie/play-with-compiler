@@ -63,7 +63,7 @@ enum class DfaState {
 
 namespace {
 bool IsAlpha(char ch) {
-  return (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z');
+  return (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch == '_');
 }
 
 bool IsDigit(char ch) { return ch >= '0' && ch <= '9'; }
