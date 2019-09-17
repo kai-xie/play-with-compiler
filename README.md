@@ -19,5 +19,8 @@ Currently available tests:
 
 ``` bash
 ./bazel-bin/src/simple_lexer_test
+
 ./bazel-bin/src/simple_parser_test
+./bazel-bin/src/simple_parser_test -v=1     # print parsing log
+./bazel-bin/src/simple_parser_test -v=2     # print more detailed parsing log
 ```
