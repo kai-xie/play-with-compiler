@@ -10,7 +10,19 @@ void test_parser(int test_id, const std::string& script) {
             << " ==================" << std::endl;
   // script = "2+3+;";
   std::cout << "Parsing: " + script << std::endl;
-  auto ast = parser->Parse(script);
+  std::unique_ptr<SimpleAST> ast;
+  try {
+    // ast = std::move(parser->Parse(script));
+    ast = parser->Parse(script);
+    // auto ast = parser->Parse(script);
+  } catch (std::exception& e) {
+    std::cout << e.what() << std::endl;
+    return;
+  } 
+  // catch (std::logic_error& e) {
+  //   std::cout << e.what() << std::endl;
+  //   return;
+  // }
   VLOG(1) << "parsing done...";
   auto root = ast->root_node();
   parser->DumpAST(root, "");
@@ -34,8 +46,8 @@ int main(int argc, char* argv[]) {
   test_parser(2, "int age = 45+2 +3 +4;");
 
   // [!!!] Test 3 and 4 will fail
-  // test_parser(3, "2+3+;");
-  // test_parser(4, "2+3*;");
+  test_parser(3, "2+3+;");
+  test_parser(4, "2+3*;");
 
   test_parser(5, "var_name +3*4+_+6/7;");
   test_parser(6, "Int=another_int;");
