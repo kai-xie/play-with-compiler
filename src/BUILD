@@ -72,7 +72,6 @@ cc_library(
     deps = ["ast_node_type"],
 )
 
-# # https://docs.bazel.build/versions/master/be/c-cpp.html#cc_library
 # cc_library(
 #     name = "util",
 #     srcs = ["util.h"],
@@ -127,6 +126,29 @@ cc_binary(
 )
 
 cc_library(
+    name = "simple_script",
+    srcs = ["simple_script.cc"],
+    hdrs = ["simple_script.h"],
+    # copts = ["-std=c++14"],
+    deps = [
+        "ast_node_base",
+        "map_util",
+        "simple_parser",
+    ],
+)
+
+cc_binary(
+    name = "simple_script_test",
+    srcs = ["simple_script_test.cc"],
+    copts = [
+        "-std=c++14",
+    ],
+    deps = [
+        "simple_script",
+    ],
+)
+
+cc_library(
     name = "map_util",
     srcs = ["map_util.h"],
     hdrs = [
@@ -136,10 +158,10 @@ cc_library(
     deps = [
         "@com_google_absl//absl/algorithm:container",
         "@com_google_absl//absl/container:flat_hash_map",
+        "@glog",
     ],
 )
 
-# https://docs.bazel.build/versions/master/be/c-cpp.html#cc_binary
 cc_binary(
     name = "test",
     srcs = ["test.cc"],
@@ -147,7 +169,7 @@ cc_binary(
         "-std=c++17",
     ],
     deps = [
-        "@glog",
         "@com_google_absl//absl/memory",
+        "@glog",
     ],
 )
