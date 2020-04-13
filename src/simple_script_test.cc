@@ -6,7 +6,6 @@
 
 #include "simple_parser.h"
 
-
 /**
  * 一个简单的脚本解释器。
  * 所支持的语法，请参见 simple_parser.h
@@ -34,7 +33,8 @@ int main(int argc, char* argv[]) {
   std::cout << "(enter 'exit();' to exit)" << std::endl;
 
   std::unique_ptr<SimpleParser> parser = std::make_unique<SimpleParser>();
-  std::unique_ptr<SimpleScript> script = std::make_unique<SimpleScript>(verbose);
+  std::unique_ptr<SimpleScript> script =
+      std::make_unique<SimpleScript>(verbose);
   std::string input;
   std::string script_text("");
   std::cout << "\n>";
@@ -42,11 +42,11 @@ int main(int argc, char* argv[]) {
   while (true) {
     try {
       getline(std::cin, input);
-      if (input == "exit();" || (script_text+input)== "exit();") {
+      if (input == "exit();" || (script_text + input) == "exit();") {
         std::cout << "good bye!" << std::endl;
         break;
       }
-      
+
       script_text += input;
       // std::cout << "script_text: " << script_text << std::endl;
       if (input.compare(input.size() - 1, 1, ";") ==
