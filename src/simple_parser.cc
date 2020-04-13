@@ -31,6 +31,12 @@ class SimpleASTNode : public ASTNode {
     return children_;
   }
 
+  virtual ASTNode* GetChildren(int child_idx) {
+    CHECK_GE(child_idx, 0);
+    CHECK_LT(child_idx, children_.size());
+    
+    return children_[child_idx];
+  }
   // AST类型
   virtual ASTNodeType GetType() const override { return node_type_; }
 
@@ -167,7 +173,7 @@ SimpleASTNode* SimpleParser::ExpressionStatement(TokenReader* tokens) {
  */
 SimpleASTNode* SimpleParser::AssignmentStatement(TokenReader* tokens) {
   VLOG(1) << "parsing AssignmentStatement...";
-  bool assignment_found = false;
+  // bool assignment_found = false;
   std::unique_ptr<SimpleASTNode> node;
   const Token* ptoken =
       tokens->Peek();  // peek to see if the next one is Identifier
@@ -192,7 +198,7 @@ SimpleASTNode* SimpleParser::AssignmentStatement(TokenReader* tokens) {
         //     << "invalid statement, expecting semicolon";
         if (CheckTokenType(ptoken, TokenType::SemiColon)) {
           tokens->Read();
-          assignment_found = true;
+          // assignment_found = true;
         } else {
           throw std::logic_error("invalid statement, expecting semicolon");
         }
@@ -225,7 +231,7 @@ SimpleASTNode* SimpleParser::AssignmentStatement(TokenReader* tokens) {
  */
 SimpleASTNode* SimpleParser::IntDeclare(TokenReader* tokens) {
   VLOG(1) << "parsing IntDeclare...";
-  bool int_declare_found = false;
+  // bool int_declare_found = false;
   std::unique_ptr<SimpleASTNode> node;
   const Token* ptoken = tokens->Peek();
   if (CheckTokenType(ptoken, TokenType::Int)) {
@@ -258,7 +264,7 @@ SimpleASTNode* SimpleParser::IntDeclare(TokenReader* tokens) {
       ptoken = tokens->Peek();
       if (CheckTokenType(ptoken, TokenType::SemiColon)) {
         tokens->Read();
-        int_declare_found = true;
+        // int_declare_found = true;
       } else {
         // CHECK(false) << "invalid statement, expecting semicolon";
         throw std::logic_error("invalid statement, expecting semicolon");

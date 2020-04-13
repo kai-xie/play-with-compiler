@@ -48,4 +48,4 @@ class SimpleParser {
   SimpleAST::Builder ast_builder_;
 };
 
-#endif
+#endif  // SIMPLE_PARSER_H_

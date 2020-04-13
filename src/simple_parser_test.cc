@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
   FLAGS_colorlogtostderr = true;  //输出彩色日志到stderr
   std::unique_ptr<SimpleParser> parser = std::make_unique<SimpleParser>();
   std::string script;
-  ASTNode* root = nullptr;
+  // ASTNode* root = nullptr;
 
   test_parser(1, "int age = 45+2; age= 20; age1+10*2;");
   test_parser(2, "int age = 45+2 +3 +4;");
