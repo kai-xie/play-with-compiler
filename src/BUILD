@@ -60,9 +60,6 @@ cc_library(
     name = "ast_node_type",
     srcs = ["ast_node_type.cc"],
     hdrs = ["ast_node_type.h"],
-    # deps = [
-    #     "macros",
-    # ],
 )
 
 cc_library(
@@ -71,13 +68,6 @@ cc_library(
     hdrs = ["ast_node_base.h"],
     deps = ["ast_node_type"],
 )
-
-# cc_library(
-#     name = "util",
-#     srcs = ["util.h"],
-#     hdrs = ["util.h"],
-#     # deps = ["header files"],
-# )
 
 cc_library(
     name = "simple_ast",
@@ -95,22 +85,27 @@ cc_library(
 )
 
 cc_library(
+    name = "simple_ast_node",
+    srcs = ["simple_ast_node.h"],
+    hdrs = ["simple_ast_node.h"],
+    copts = ["-std=c++14"],
+    deps = [
+        "ast_node_base",
+        # "@com_google_absl//absl/container:flat_hash_set",
+    ],
+)
+
+cc_library(
     name = "simple_parser",
     srcs = ["simple_parser.cc"],
     hdrs = ["simple_parser.h"],
     copts = ["-std=c++14"],
     deps = [
-        # "ast_node_base",
-        # "ast_node_type",
         "map_util",
-        "@com_google_absl//absl/container:flat_hash_set",
-        # "@com_google_absl//absl/memory",
-        # "@glog",
-        # "token_type",
-        # "token_reader_base",
         "simple_ast",
-        # "token_base",
+        "simple_ast_node",
         "simple_lexer",
+        "@com_google_absl//absl/container:flat_hash_set",
     ],
 )
 
