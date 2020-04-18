@@ -144,6 +144,31 @@ cc_binary(
 )
 
 cc_library(
+    name = "simple_calculator",
+    srcs = ["simple_calculator.cc"],
+    hdrs = ["simple_calculator.h"],
+    copts = ["-std=c++14"],
+    deps = [
+        "map_util",
+        "simple_ast",
+        "simple_ast_node",
+        "simple_lexer",
+        "@com_google_absl//absl/container:flat_hash_set",
+    ],
+)
+
+cc_binary(
+    name = "simple_calculator_test",
+    srcs = ["simple_calculator_test.cc"],
+    copts = [
+        "-std=c++14",
+    ],
+    deps = [
+        ":simple_calculator",
+    ],
+)
+
+cc_library(
     name = "map_util",
     srcs = ["map_util.h"],
     hdrs = [
