@@ -20,6 +20,7 @@
  * programm -> intDeclare | expressionStatement | assignmentStatement
  * intDeclare -> 'int' Id ( = additive) ';'
  * expressionStatement -> addtive ';'
+ * assignmentStatement -> Id = additive ';'
  * addtive -> multiplicative ( (+ | -) multiplicative)*
  * multiplicative -> primary ( (* | /) primary)*
  * primary -> IntLiteral | Id | (additive)
