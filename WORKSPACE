@@ -19,7 +19,7 @@ git_repository(
 git_repository(
   name = "com_google_absl",
   remote = "https://github.com/abseil/abseil-cpp",
-  commit = "2d2d7fbc283315b676159716376e739d3d23ed94",
+  commit = "b86fff162e15ad8ee534c25e58bf522330e8376d",
 )    
 
 # # C++ rules for Bazel.
@@ -82,3 +82,16 @@ http_archive(
 #         "https://github.com/bazelbuild/rules_cc/archive/b7fe9697c0c76ab2fd431a891dbb9a6a32ed7c3e.zip",
 #     ],
 # )
+
+# antlr4
+http_archive(
+    name = "rules_antlr",
+    sha256 = "26e6a83c665cf6c1093b628b3a749071322f0f70305d12ede30909695ed85591",
+    strip_prefix = "rules_antlr-0.5.0",
+    urls = ["https://github.com/marcohu/rules_antlr/archive/0.5.0.tar.gz"],
+)
+
+load("@rules_antlr//antlr:repositories.bzl", "rules_antlr_dependencies")
+load("@rules_antlr//antlr:lang.bzl", "CPP")
+
+rules_antlr_dependencies("4.7.2", CPP)
