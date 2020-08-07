@@ -6,6 +6,8 @@
 
 namespace play {
 
+class Scope;
+
 // An abstract class for symbols.
 class Symbol {
  public:
@@ -29,7 +31,7 @@ class Symbol {
   int visibility = 0;
 
   // Symbol关联的AST节点
-  ParserRuleContext* ctx = nullptr;
+  antlr4::ParserRuleContext* ctx = nullptr;
 }
 
 }  // namespace play

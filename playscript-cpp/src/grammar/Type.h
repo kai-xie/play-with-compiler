@@ -2,7 +2,9 @@
 
 #include <string>
 
-class Scope;
+#incluce "grammar/scope.h"
+
+
 
 namespace play {
 

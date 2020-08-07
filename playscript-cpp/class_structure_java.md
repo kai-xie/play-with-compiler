@@ -17,7 +17,7 @@ graph BT
   PrimitiveType -- extends --> Type
   VoidType -- extends --> Type
   DefaultConstructor -- extends --> Function
-  DefaultFunctionType -- extends --> FunctionType
+  DefaultFunctionType -.-> |implements| FunctionType
   end
 ```
 
