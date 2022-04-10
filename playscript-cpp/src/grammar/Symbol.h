@@ -3,6 +3,7 @@
 #include <string>
 
 #include "antlr4-runtime.h"
+#include "play_utils.h"
 
 namespace play {
 
@@ -20,7 +21,8 @@ class Symbol {
 
   Scope* getEnclosingScope() { return enclosingScope; }
 
- protected:
+  // friend class Scope;
+//  protected:
   //符号的名称
   std::string name = "";
 

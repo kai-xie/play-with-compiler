@@ -5,7 +5,7 @@
 #include "absl/flags/parse.h"
 #include "absl/flags/usage.h"
 // #include "absl/strings/str_cat.h"
-#include "ASTEvaluator.h"
+// #include "ASTEvaluator.h"
 #include "absl/strings/substitute.h"
 #include "antlr4-runtime.h"
 #include "glog/logging.h"
@@ -49,10 +49,7 @@ using namespace antlr4;
 //   return std::string(bytes.data(), fileSize);
 // }
 
-void REPL(bool verbose, bool ast_dump) {
-  PrintLn("Enjoy PlayScript!");
-  
-}
+void REPL(bool verbose, bool ast_dump) { PrintLn("Enjoy PlayScript!"); }
 
 int main(int argc, char* argv[]) {
   // InitializeNativeTarget();
@@ -121,14 +118,13 @@ int main(int argc, char* argv[]) {
 
   if (script.empty()) {
     REPL(verbose, ast_dump);
-  } else if (genAsm) {  // generate ASM code
-  } else if (genByteCode) {   // generate byte code
-
+  } else if (genAsm) {       // generate ASM code
+    return 0;
+  } else if (genByteCode) {  // generate byte code
+    return 0;
   } else {  // run script
-
+    return 0;
   }
 
-
-
-    return 0;
+  return 0;
 }

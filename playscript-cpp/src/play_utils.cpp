@@ -1,7 +1,9 @@
 
 #include "play_utils.h"
 
+#include <vector>
 #include <iostream>
+#include <fstream>
 
 namespace play {
 

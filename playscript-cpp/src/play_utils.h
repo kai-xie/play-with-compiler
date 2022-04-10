@@ -5,7 +5,7 @@
 #include "absl/types/optional.h"
 
 namespace play {
-namespace internal {
+// namespace internal {
 /**
  * @brief read contents from file into a string.
  *
@@ -31,6 +31,6 @@ void FreePtr(Ptr head, RestPtrs... rest) {
   FreePtr(rest...);
 }
 
-}  // namespace internal
+// }  // namespace internal
 }  // namespace play
 

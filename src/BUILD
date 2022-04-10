@@ -80,7 +80,7 @@ cc_library(
         ":ast_node_base",
         # ":util",
         "@com_google_absl//absl/memory",
-        "@glog",
+        "@com_github_google_glog//:glog",
     ],
 )
 
@@ -176,20 +176,20 @@ cc_library(
     ],
     # visibility = ["//visibility:public"],
     deps = [
+        "@com_github_google_glog//:glog",
         "@com_google_absl//absl/algorithm:container",
         "@com_google_absl//absl/container:flat_hash_map",
-        "@glog",
     ],
 )
 
-cc_binary(
-    name = "test",
-    srcs = ["test.cc"],
-    copts = [
-        "-std=c++17",
-    ],
-    deps = [
-        "@com_google_absl//absl/memory",
-        "@glog",
-    ],
-)
+# cc_binary(
+#     name = "test",
+#     srcs = ["test.cc"],
+#     copts = [
+#         "-std=c++17",
+#     ],
+#     deps = [
+#         "@com_google_absl//absl/memory",
+#         "@com_github_google_glog//:glog",
+#     ],
+# )
