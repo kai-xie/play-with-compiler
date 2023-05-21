@@ -2,6 +2,7 @@
 #define SIMPLE_SCRIPT_H_
 
 #include <map>
+#include <string>
 
 class ASTNode;
 

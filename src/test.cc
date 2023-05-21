@@ -13,8 +13,8 @@ std::ostream& operator<<(std::ostream& s, std::nullptr_t) {
 }
 
 int main() {
-  std::nullptr_t n1;
-  std::cout << n1 << std::endl;
+  // std::nullptr_t n1;
+  // std::cout << n1 << std::endl;
 
   std::unique_ptr<std::string> pstr;
   // pstr = std::make_unique<std::string>("hello");
