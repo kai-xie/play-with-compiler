@@ -32,7 +32,7 @@ std::unique_ptr<SimpleAST> SimpleParser::Parse(const std::string& script) {
   // TokenReader* tokens =
   // dynamic_cast<TokenReader*>(simple_token_reader.get());
   TokenReader* tokens = simple_token_reader.get();
-  ASTNode* root_node = static_cast<SimpleASTNode*>(Prog(tokens));
+  ASTNode* root_node = Prog(tokens);
   return ast_builder_.Build(root_node);
   // return root_node;
 }

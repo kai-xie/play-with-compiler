@@ -1,7 +1,8 @@
-
 #include "play_utils.h"
 
+#include <fstream>
 #include <iostream>
+#include <vector>
 
 namespace play {
 
@@ -20,8 +21,6 @@ absl::optional<std::string> ReadFile(const std::string& fileName) {
   return std::string(bytes.data(), fileSize);
 }
 
-void PrintLn(const std::string& content) {
-  std::cout << content << std::endl;
-}
+void PrintLn(const std::string& content) { std::cout << content << std::endl; }
 
 }  // namespace play

@@ -95,3 +95,16 @@ load("@rules_antlr//antlr:repositories.bzl", "rules_antlr_dependencies")
 load("@rules_antlr//antlr:lang.bzl", "CPP")
 
 rules_antlr_dependencies("4.7.2", CPP)
+
+# http_archive(
+#     name = "rules_antlr",
+#     sha256 = "26e6a83c665cf6c1093b628b3a749071322f0f70305d12ede30909695ed85591",
+#     strip_prefix = "rules_antlr-0.5.0",
+#     urls = ["https://github.com/GorNishanov/rules_antlr/archive/refs/tags/0.5.8.tar.gz"],
+# )
+
+git_repository(
+    name = "antlr-cpp-runtime",
+    commit = "0a55210ef2c2b7d6d3fcc9fbaee26828a190008d",  # 4.7.2
+    remote = "https://github.com/kai-xie/antlr-cpp-runtime",
+)

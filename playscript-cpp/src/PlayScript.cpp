@@ -5,53 +5,58 @@
 #include "absl/flags/parse.h"
 #include "absl/flags/usage.h"
 // #include "absl/strings/str_cat.h"
-#include "ASTEvaluator.h"
+// #include "ASTEvaluator.h"
 #include "absl/strings/substitute.h"
 #include "antlr4-runtime.h"
 #include "glog/logging.h"
 // #include "IRGen.h"
 // #include "PlayScriptJIT.h"
 
-#include "PlayScriptLexer.h"
-#include "PlayScriptParser.h"
+// #include "PlayScriptLexer.h"
+// #include "PlayScriptParser.h"
 #include "play_flags.h"
 #include "play_utils.h"
 
 using namespace play;
 using namespace antlr4;
 
-// ABSL_FLAG(bool, S, false, "compile to assembly code");
-// ABSL_FLAG(bool, bc, false, "compile to byte code");
-// ABSL_FLAG(bool, verbose, false, "verbose mode : dump AST and symbols");
-// ABSL_FLAG(bool, ast_dump, false, "dump AST in lisp style");
-// ABSL_FLAG(std::string, o, "",
-//           "outputfile : file pathname used to save generated code, eg. "
-//           "assembly code");
-
-// /**
-//  * @brief read contents from file into a string.
-//  *
-//  * @param fileName
-//  * @return absl::optional<std::string>
-//  */
-// absl::optional<std::string> ReadFile(const std::string& fileName) {
-//   std::ifstream ifs(fileName.c_str());
-//   if (!ifs.good()) {
-//     return absl::nullopt;
-//   }
-
-//   std::ifstream::pos_type fileSize = ifs.tellg();
-//   ifs.seekg(0, std::ios::beg);
-
-//   std::vector<char> bytes(fileSize);
-//   ifs.read(bytes.data(), fileSize);
-
-//   return std::string(bytes.data(), fileSize);
-// }
-
 void REPL(bool verbose, bool ast_dump) {
   PrintLn("Enjoy PlayScript!");
-  
+
+  // PlayScriptCompiler compiler = new PlayScriptCompiler();
+  std::string script = "";
+  std::string scriptLet = "";
+  std::cout << "\n>";
+
+  // A func performs reading input, just like the `input()` in python.
+  auto input = [](std::string prompt = "") -> std::string {
+    std::string line;
+    std::cout << prompt;
+    std::cin >> line;
+    absl::RemoveExtraAsciiWhitespace(&line);
+    return line;
+  };
+
+  while (true) {
+    try {
+      std::string line = input();
+      if (line == "exit();") {
+        PrintLn("good bye!");
+        break;
+      }
+
+      scriptLet += line + "\n";
+      if (line[line.size() - 1] == ';') {
+        // 解析整个脚本文件
+        // AnotatedTree at = compiler.compile
+      }
+
+    } catch (std::exception& e) {
+      std::cout << "Error: " << e.what() << std::endl;
+      std::cout << "\n>";
+      scriptLet = "";
+    }
+  }
 }
 
 int main(int argc, char* argv[]) {
@@ -117,18 +122,15 @@ int main(int argc, char* argv[]) {
   LOG(INFO) << "genAsm: " << std::boolalpha << genAsm;
   LOG(WARNING) << "genByteCode: " << std::boolalpha << genByteCode;
   LOG(ERROR) << "verbose: " << std::boolalpha << verbose;
-  // LOG(WARNING) << "ast_dump: " << std::boolalpha << ast_dump;
+  LOG(WARNING) << "ast_dump: " << std::boolalpha << ast_dump;
 
   if (script.empty()) {
     REPL(verbose, ast_dump);
-  } else if (genAsm) {  // generate ASM code
-  } else if (genByteCode) {   // generate byte code
+  } else if (genAsm) {       // generate ASM code
+  } else if (genByteCode) {  // generate byte code
 
   } else {  // run script
-
   }
 
-
-
-    return 0;
+  return 0;
 }

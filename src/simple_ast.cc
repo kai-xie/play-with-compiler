@@ -34,7 +34,7 @@ SimpleAST::SimpleAST(std::vector<std::unique_ptr<ASTNode>>* ast_nodes,
     : root_node_(root_ast_node) {
   bool root_found = false;
   for (auto& node : *ast_nodes) {
-    root_found |= node.get() == root_node_;
+    root_found = root_found || (node.get() == root_node_);
     ast_nodes_.emplace_back(std::move(node));
   }
   CHECK(root_found) << "Error: root is not found in the AST.";
