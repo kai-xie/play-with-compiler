@@ -2,18 +2,14 @@
 
 #include <string>
 
-#incluce "grammar/scope.h"
-
-
-
 namespace play {
+class Scope;
 
-// An interface class for Type
 class Type {
  public:
-  virtual std::string getName() = 0;
+  virtual std::string getName() const = 0;
 
-  virtual Scope getEnclosingScope() = 0;
+  virtual Scope* getEnclosingScope() const = 0;
 
   /**
    * 本类型是不是 is 目标类型。 也就是能否用来替换目标类型。
@@ -21,7 +17,9 @@ class Type {
    * @param type 目标类型
    * @return
    */
-  bool isType(Type type) = 0;
-}
+  virtual bool isType(Type* type) const = 0;
+
+  virtual std::string toString() const = 0;
+};
 
 }  // namespace play

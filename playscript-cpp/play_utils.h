@@ -33,4 +33,3 @@ void FreePtr(Ptr head, RestPtrs... rest) {
 
 // }  // namespace internal
 }  // namespace play
-

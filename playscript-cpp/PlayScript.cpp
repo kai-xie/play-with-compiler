@@ -14,6 +14,8 @@
 
 // #include "PlayScriptLexer.h"
 // #include "PlayScriptParser.h"
+#include "AnnotatedTree.h"
+#include "PlayScriptCompiler.h"
 #include "play_flags.h"
 #include "play_utils.h"
 
@@ -23,7 +25,8 @@ using namespace antlr4;
 void REPL(bool verbose, bool ast_dump) {
   PrintLn("Enjoy PlayScript!");
 
-  // PlayScriptCompiler compiler = new PlayScriptCompiler();
+  std::shared_ptr<PlayScriptCompiler> compiler =
+      std::make_shared<PlayScriptCompiler>();
   std::string script = "";
   std::string scriptLet = "";
   std::cout << "\n>";
@@ -48,7 +51,15 @@ void REPL(bool verbose, bool ast_dump) {
       scriptLet += line + "\n";
       if (line[line.size() - 1] == ';') {
         // 解析整个脚本文件
-        // AnotatedTree at = compiler.compile
+        std::shared_ptr<AnnotatedTree> at =
+            compiler->compile(script + scriptLet, verbose, ast_dump);
+
+        // 重新执行整个脚本
+        if (!at->hasCompilationError()) {
+        }
+
+        std::cout << "\n>";  // 提示符
+        scriptLet = "";
       }
 
     } catch (std::exception& e) {
@@ -88,7 +99,7 @@ int main(int argc, char* argv[]) {
   FLAGS_logtostderr = true;
   // 日志输出到stderr（终端屏幕），同时输出到日志文件。
   // FLAGS_alsologtostderr = true;
-  FLAGS_colorlogtostderr = true;  //输出彩色日志到stderr
+  FLAGS_colorlogtostderr = true;  // 输出彩色日志到stderr
 
   bool genAsm = absl::GetFlag(FLAGS_S);
   bool genByteCode = absl::GetFlag(FLAGS_bc);
