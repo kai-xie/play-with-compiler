@@ -1,5 +1,7 @@
 # play-with-compiler
 
+Memory leakage and safety is not a concern in this repo, so raw pointers are dangling around.
+
 ## Build and Test
 
 1. Install [Bazel](https://docs.bazel.build/versions/master/install.html) or [Bazelisk](https://github.com/bazelbuild/bazelisk)
