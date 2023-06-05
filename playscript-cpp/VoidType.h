@@ -9,23 +9,24 @@ class Scope;
 
 class VoidType : public Type {
  public:
-  std::string getName() override { return "void"; }
+  virtual std::string getName() const override { return "void"; }
 
-  Scope* getEnclosingScope() override { return nullptr; }
+  virtual Scope* getEnclosingScope() const override { return nullptr; }
 
-  bool isType(Type* type) override { return this == type; }
+  virtual bool isType(Type* type) const override { return this == type; }
 
-  VoidType instance() { return *voidType; }
-
-  std::string toString() { return "void"; }
+  virtual std::string toString() const override { return "void"; }
 
   friend std::ostream& operator<<(std::ostream& os, const VoidType& voidType) {
     return os << voidType.toString();
   }
 
- private:
-  static VoidType* voidType = new VoidType();
+  static VoidType* instance() {
+    static VoidType* voidType = new VoidType();
+    return voidType;
+  }
 
-  VoidType() == default;
+ private:
+  VoidType() = default;
 };
 }  // namespace play

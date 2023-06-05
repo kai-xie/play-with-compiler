@@ -2,6 +2,8 @@
 
 #include "AntlrPlayScript.h"
 #include "TypeAndScopeScanner.h"
+#include "TypeResolver.h"
+
 
 namespace play {
 
@@ -25,6 +27,10 @@ std::shared_ptr<AnnotatedTree> PlayScriptCompiler::compile(
   std::shared_ptr<TypeAndScopeScanner> pass1 =
       std::make_shared<TypeAndScopeScanner>(at_);
   walker.walk(pass1.get(), at_->ast);
+
+  // pass2：把变量、类继承、函数声明的类型都解析出来。也就是所有声明时用到类型的地方。
+  std::shared_ptr<TypeResolver> pass2 = std::make_shared<TypeResolver>(at_);
+  walker.walk(pass2.get(), at_->ast);
 
   // //多步的语义解析。
   // //优点：1.代码更清晰；2.允许使用在声明之前，这在支持面向对象、递归函数等特征时是必须的。

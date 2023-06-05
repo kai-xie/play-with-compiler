@@ -55,6 +55,8 @@ WHILE:              'while';
 
 FUNCTION:           'function';
 
+STRING:             'string';
+
 // Literals
 
 DECIMAL_LITERAL:    ('0' | [1-9] (Digits? | '_'+ Digits)) [lL]?;
