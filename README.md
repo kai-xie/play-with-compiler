@@ -1,6 +1,6 @@
 # play-with-compiler
 
-Memory leakage and safety is not a concern in this repo, so raw pointers are dangling around.
+> Please note that this repo is primarily intended for proof of concept purposes, and as such, memory leakage and safety have not been given top priority. As a result, you may come across raw pointers left dangling without any special treatment in the source code. However, it is not recommended to use such pointers in production code.
 
 ## Build and Test
 
