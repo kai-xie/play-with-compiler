@@ -3,6 +3,7 @@
 #include "AntlrPlayScript.h"
 #include "RefResolver.h"
 #include "TypeAndScopeScanner.h"
+#include "TypeChecker.h"
 #include "TypeResolver.h"
 
 namespace play {
@@ -36,9 +37,14 @@ std::shared_ptr<AnnotatedTree> PlayScriptCompiler::compile(
   std::shared_ptr<RefResolver> pass3 = std::make_shared<RefResolver>(at_);
   walker.walk(pass3.get(), at_->ast);
 
-  // // pass4：类型检查
-  // std::shared_ptr<TypeChecker> pass4 = std::make_shared<TypeChecker>(at_);
-  // walker.walk(pass4.get(), at_->ast);
+  // pass4：类型检查
+  std::shared_ptr<TypeChecker> pass4 = std::make_shared<TypeChecker>(at_);
+  walker.walk(pass4.get(), at_->ast);
+
+  // // pass5：其他语义检查
+  // std::shared_ptr<SematicValidator> pass5 =
+  //     std::make_shared<SematicValidator>(at_);
+  // walker.walk(pass5.get(), at_->ast);
 
   // //多步的语义解析。
   // //优点：1.代码更清晰；2.允许使用在声明之前，这在支持面向对象、递归函数等特征时是必须的。
