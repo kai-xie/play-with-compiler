@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <memory>
 
 #include "AnnotatedTree.h"
@@ -23,13 +24,23 @@ class PlayScriptCompiler {
 
   void dumpSymbols() {
     if (at_) {
-      // std::cout << at_.
+      std::cout << at_->getScopeTreeString() << std::endl;
     }
   }
 
-  void dumpAST() {}
+  void dumpAST() {
+    if (at_) {
+      std::cout << at_->ast->toStringTree() << std::endl;
+    }
+  }
 
-  void dumpCompilationLogs() {}
+  void dumpCompilationLogs() {
+    if (at_) {
+      for (auto& log : at_->logs) {
+        std::cout << log << std::endl;
+      }
+    }
+  }
 
  private:
   std::shared_ptr<AnnotatedTree> at_{nullptr};
