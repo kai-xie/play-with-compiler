@@ -35,11 +35,11 @@ graph BT
 ```mermaid
 graph BT
   subgraph Three
-  PlayScriptBaseVisitor_string(PlayScriptBaseVisitor<string>) -- specify --> PlayScriptBaseVisitor
-  PlayScriptBaseVisitor_object(PlayScriptBaseVisitor<Object>) -- specify --> PlayScriptBaseVisitor
-  AsmGen -- extends --> PlayScriptBaseVisitor_string
-  ASTEvaluator -- extends --> PlayScriptBaseVisitor_object
-  ByteCodeGen -- extends --> PlayScriptBaseVisitor_object
+  B["PlayScriptBaseVisitor(String)"] -- specify --> A[PlayScriptVisitor]
+  C["PlayScriptBaseVisitor(Object)"] -- specify --> A[PlayScriptVisitor]
+  D[AsmGen] -- extends --> B
+  E[ASTEvaluator] -- extends --> C
+  F[ByteCodeGen] -- extends --> C
   end
 ```
 
@@ -47,6 +47,7 @@ graph BT
 graph BT
   subgraph Four
   ClassObject -- extends --> PlayObject
+  NullObject -- extends --> ClassObject
   FunctionObject -- extends --> PlayObject
   end
 ```
