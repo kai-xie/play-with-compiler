@@ -10,8 +10,8 @@ namespace play {
 
 class MyLValue : public LValue {
  public:
-  Variable* variable;
   PlayObject* valueContainer;
+  Variable* variable;
 
   MyLValue(PlayObject* vcon, Variable* var)
       : valueContainer(vcon), variable(var) {}

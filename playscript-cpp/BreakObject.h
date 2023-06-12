@@ -10,7 +10,7 @@ namespace play {
 class BreakObject {
  public:
   static BreakObject* instance() {
-    static BreakObject inst = new BreakObject();
+    static BreakObject* inst = new BreakObject();
     return inst;
   }
 

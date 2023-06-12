@@ -22,6 +22,8 @@ class PlayScriptCompiler {
     return compile(script, false, false);
   }
 
+  antlrcpp::Any Execute(std::shared_ptr<AnnotatedTree> at);
+
   void dumpSymbols() {
     if (at_) {
       std::cout << at_->getScopeTreeString() << std::endl;

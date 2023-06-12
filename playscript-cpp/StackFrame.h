@@ -1,10 +1,10 @@
 #pragma once
 
 #include "BlockScope.h"
-#include "PlayObject.h"
-#include "Scope.h"
 #include "ClassObject.h"
 #include "FunctionObject.h"
+#include "PlayObject.h"
+#include "Scope.h"
 
 namespace play {
 
@@ -55,7 +55,7 @@ class StackFrame {
     return false;
   }
 
-  std::string toString() {
+  std::string toString() const {
     std::string rtn = scope->toString();
     if (parentFrame) {
       rtn += " -> " + parentFrame->toString();

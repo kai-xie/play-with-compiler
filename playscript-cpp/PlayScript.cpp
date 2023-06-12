@@ -16,6 +16,7 @@
 // #include "PlayScriptParser.h"
 #include "AnnotatedTree.h"
 #include "PlayScriptCompiler.h"
+#include "Utils.h"
 #include "play_flags.h"
 #include "play_utils.h"
 
@@ -56,6 +57,9 @@ void REPL(bool verbose, bool ast_dump) {
 
         // 重新执行整个脚本
         if (!at->hasCompilationError()) {
+          antlrcpp::Any result = compiler->Execute(at);
+          std::cout << utils::toString(result) << std::endl;
+          script = script + scriptLet;
         }
 
         std::cout << "\n>";  // 提示符

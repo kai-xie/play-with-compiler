@@ -1,5 +1,6 @@
 #include "PlayScriptCompiler.h"
 
+#include "ASTEvaluator.h"
 #include "AntlrPlayScript.h"
 #include "ClosureAnalyzer.h"
 #include "RefResolver.h"
@@ -64,6 +65,12 @@ std::shared_ptr<AnnotatedTree> PlayScriptCompiler::compile(
   }
 
   return at_;
+}
+
+antlrcpp::Any PlayScriptCompiler::Execute(std::shared_ptr<AnnotatedTree> at) {
+  ASTEvaluator* visitor = new ASTEvaluator(at);
+  antlrcpp::Any result = visitor->visit(at->ast);
+  return result;
 }
 
 }  // namespace play

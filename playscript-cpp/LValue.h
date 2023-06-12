@@ -22,6 +22,6 @@ class LValue {
 
   virtual std::string toString() const = 0;
   // public StackFrame getFrame();
-}
+};
 
 }  // namespace play
