@@ -122,6 +122,7 @@ int main(int argc, char* argv[]) {
     script = "";
   } else {  // get the scriptfile contents.
     std::string script_file = positional_arguments[1];
+    // LOG(INFO) << "script file: " << script_file;
     auto script_or_not = ReadFile(script_file);
     if (script_or_not) {
       script = script_or_not.value();
@@ -144,7 +145,22 @@ int main(int argc, char* argv[]) {
   } else if (genAsm) {       // generate ASM code
   } else if (genByteCode) {  // generate byte code
 
-  } else {  // run script
+  }
+  // run script
+  else {
+    std::shared_ptr<PlayScriptCompiler> compiler =
+        std::make_shared<PlayScriptCompiler>();
+    try {
+      std::shared_ptr<AnnotatedTree> at =
+          compiler->compile(script, verbose, ast_dump);
+
+      if (!at->hasCompilationError()) {
+        antlrcpp::Any result = compiler->Execute(at);
+        std::cout << utils::toString(result) << std::endl;
+      }
+    } catch (std::exception& e) {
+      std::cout << "Error: " << e.what() << std::endl;
+    }
   }
 
   return 0;

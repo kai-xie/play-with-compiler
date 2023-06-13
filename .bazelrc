@@ -71,3 +71,5 @@ build --local_cpu_resources=24
 # keep the same with llvm ci
 build --config=generic_clang
 
+# build --config=generic_gcc
+
