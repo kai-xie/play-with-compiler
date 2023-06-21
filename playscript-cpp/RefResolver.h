@@ -190,6 +190,7 @@ class RefResolver : public PlayScriptBaseListener {
           at->log("unknown class constructor: " + ctx->getText(), ctx);
         }
 
+        // 这次函数调用是返回一个对象
         at->typeOfNode[ctx] = theClass;
       }
     }

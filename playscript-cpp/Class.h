@@ -55,14 +55,14 @@ class Class : public Scope, public Type {
    * @param name
    * @return
    */
-  Variable* getVariable(const std::string& name) override;
+  virtual Variable* getVariable(const std::string& name) override;
 
   /**
    * 是否包含某个Class
    * @param name
    * @return
    */
-  Class* getClass(const std::string& name) override;
+  virtual Class* getClass(const std::string& name) override;
 
   /**
    * 找到某个构建函数。不需要往父类去找，在本级找就行了。
@@ -78,25 +78,25 @@ class Class : public Scope, public Type {
    * 参数类型列表。该参数不允许为空。如果没有参数，需要传入一个0长度的列表。
    * @return
    */
-  Function* getFunction(const std::string& name,
-                        const std::vector<Type*>& paramTypes) override;
-
-  Variable* getFunctionVariable(const std::string& name,
+  virtual Function* getFunction(const std::string& name,
                                 const std::vector<Type*>& paramTypes) override;
+
+  virtual Variable* getFunctionVariable(
+      const std::string& name, const std::vector<Type*>& paramTypes) override;
 
   /**
    * 是否包含某个Symbol。这时候要把父类的成员考虑进来。
    * @param symbol
    * @return
    */
-  bool containsSymbol(Symbol* symbol) override;
+  virtual bool containsSymbol(Symbol* symbol) override;
 
   /**
    * 当自身是目标类型的子类型的时候，返回true;
    * @param type 目标类型
    * @return
    */
-  bool isType(Type* type) const override;
+  virtual bool isType(Type* type) const override;
 
   /**
    * 本类型是不是另一个类型的祖先类型
