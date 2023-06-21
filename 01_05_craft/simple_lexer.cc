@@ -184,7 +184,7 @@ std::unique_ptr<SimpleTokenReader> SimpleLexer::Tokenize(
   //   e.printStackTrace();
   // }
   auto rtn = std::make_unique<SimpleTokenReader>(tokens);
-  return std::move(rtn);
+  return rtn;
 }
 
 /**

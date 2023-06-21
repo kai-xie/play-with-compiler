@@ -45,7 +45,7 @@ std::vector<ASTNode*> SimpleAST::ASTNodes() {
   for (int i = 0; i< ast_nodes_.size(); ++i) {
     ret.emplace_back(ast_nodes_[i].get());
   }
-  return std::move(ret);
+  return ret;
 };
 
 const std::vector<const ASTNode*> SimpleAST::ASTNodes() const {
@@ -53,5 +53,5 @@ const std::vector<const ASTNode*> SimpleAST::ASTNodes() const {
   for (int i = 0; i< ast_nodes_.size(); ++i) {
     ret.emplace_back(ast_nodes_[i].get());
   }
-  return std::move(ret);
+  return ret;
 };
